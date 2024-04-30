@@ -1,68 +1,119 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>crud project</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+  <title>crud project</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-md text-center">
-        <a class="navbar-brand" href="/">crud mini project</a>
+      <a class="navbar-brand" href="/">crud mini project</a>
     </div>
 
   </nav>
 
   <div class="container mt-3">
     <div class="row">
-  <div class="col-md-6">
+      <div class="col-md-4">
 
-  <h2 class="text-white bg-dark text-center p-3">
-  insert students details
-  <h2>
-    <br>
-    <form action="" method="post">
+        <h2 class="text-white bg-dark text-center p-3">
+          insert students details
+        </h2>
+            <br>
 
-      <div class="form-group">
 
-        <input type="text" class="form-control" placeholder="enter the student name" name ="name"required>
+            <form action="/insert" method="post"> {% csrf_token %}
+
+              <div class="form-group">
+
+                <input type="text" class="form-control" placeholder="enter the student name" name="name" required/>
+              </div>
+              <div class="form-group">
+
+                <input type="email" class="form-control mt-2" placeholder="enter the student email" name="email"
+                  required/>
+              </div>
+              <div class="form-group">
+
+                <input type="number" class="form-control mt-2" placeholder="enter the student age" name="age" required/>
+              </div>
+              <div class="form-group">
+                <select id="gender" class="form-control" name="gender" required/>
+                  <option selected>select gender</option>
+                  <option value="male">male</option>
+                  <option value="female">female</option>
+                  <option value="others">others</option>
+                </select>
+              </div>
+              <br>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg btn-block">submit</button>
+              </div>
+            </form>
       </div>
-      <div class="form-group">
-
-        <input type="email" class="form-control mt-2" placeholder="enter the student email" name ="email"required>
+    
+      <div class="col-md-8">
+        <h2 class="text-white bg-dark text-center p-3">
+          students details        </h2>
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">email</th>
+                <th scope="col">age</th>
+                <th scope="col">gender</th>
+                <th scope="col">edit</th>
+                <th scope="col">delete</th>
+              </tr>
+            </thead>
+            <tbody>
+          {% for d in data %}
+              <tr>
+                <th scope="row">{{d.id}}</th>
+                <td>{{d.name}}</td>
+                <td>{{d.email}}</td>
+                <td>{{d.age}}</td>
+                <td>{{d.gender}}</td>
+                <td><a type="button" href="/update/{{d.id}}" class="btn btn-warning">Edit</a></td>
+                <td><a type="button" href="/delete/{{d.id}}"class="btn btn-danger">Delete</a></td>
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
       </div>
-      <div class="form-group">
-
-        <input type="number" class="form-control mt-2" placeholder="enter the student age" name ="age"required>
-      </div>
-      <div class="form-group">
-        <select id="gender" class="form-control" name="gender" required>
-          <option selected>select gender</option>
-          <option value="male">male</option>
-          <option value="female">female</option>
-          <option value="others">others</option>
-        </select>
-      </div>
-<div class="d-grid gap-2">
-        <button type="button" class="btn btn-success btn-lg btn-block">submit</button>
-</div>
-    </form>
-  </div>
-  <div class="col-md-6">
-    <h2 class="text-white bg-dark text-center p-3">
-      datas
-    </h2>
-  </div>
+      <div>
+        <h2>About Us</h2>
+        <p>This is a brief introduction about our company or website.</p>
+        <a href="{% url 'about' %}"><button>About Us</button></a>
     </div>
   </div>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
 
 
-  </body>
+</body>
+
 </html>
