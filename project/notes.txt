@@ -1,0 +1,1 @@
+it is a crud operation web appliation using django frame work
